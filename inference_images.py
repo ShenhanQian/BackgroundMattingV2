@@ -30,10 +30,10 @@ from torchvision.transforms.functional import to_pil_image
 from threading import Thread
 from tqdm import tqdm
 
-from dataset import ImagesDataset, ZipDataset
-from dataset import augmentation as A
-from model import MattingBase, MattingRefine
-from inference_utils import HomographicAlignment
+from BackgroundMattingV2.dataset import ImagesDataset, ZipDataset
+from BackgroundMattingV2.dataset import augmentation as A
+from BackgroundMattingV2.model import MattingBase, MattingRefine
+from BackgroundMattingV2.inference_utils import HomographicAlignment
 
 
 # --------------- Arguments ---------------
@@ -125,7 +125,7 @@ with torch.no_grad():
     for i, (src, bgr) in enumerate(tqdm(dataloader)):
         src = src.to(device, non_blocking=True)
         bgr = bgr.to(device, non_blocking=True)
-        
+
         if args.model_type == 'mattingbase':
             pha, fgr, err, _ = model(src, bgr)
         elif args.model_type == 'mattingrefine':

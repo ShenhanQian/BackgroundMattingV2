@@ -41,7 +41,7 @@ from torchvision.transforms.functional import to_tensor
 from tqdm import tqdm
 from PIL import Image
 
-from model import MattingBase, MattingRefine
+from BackgroundMattingV2.model import MattingBase, MattingRefine
 
 
 # --------------- Arguments ---------------

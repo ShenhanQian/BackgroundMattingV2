@@ -35,10 +35,10 @@ from torchvision import transforms as T
 from PIL import Image
 
 from data_path import DATA_PATH
-from dataset import ImagesDataset, ZipDataset, VideoDataset, SampleDataset
+from BackgroundMattingV2.dataset import ImagesDataset, ZipDataset, VideoDataset, SampleDataset
 from dataset import augmentation as A
-from model import MattingRefine
-from model.utils import load_matched_state_dict
+from BackgroundMattingV2.model import MattingRefine
+from BackgroundMattingV2.model.utils import load_matched_state_dict
 
 
 # --------------- Arguments ---------------

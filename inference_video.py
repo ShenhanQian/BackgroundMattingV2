@@ -34,10 +34,10 @@ from threading import Thread
 from tqdm import tqdm
 from PIL import Image
 
-from dataset import VideoDataset, ZipDataset
-from dataset import augmentation as A
-from model import MattingBase, MattingRefine
-from inference_utils import HomographicAlignment
+from BackgroundMattingV2.dataset import VideoDataset, ZipDataset
+from BackgroundMattingV2.dataset import augmentation as A
+from BackgroundMattingV2.model import MattingBase, MattingRefine
+from BackgroundMattingV2.inference_utils import HomographicAlignment
 
 
 # --------------- Arguments ---------------

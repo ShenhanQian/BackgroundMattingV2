@@ -22,7 +22,7 @@ The `/model` directory contains all the scripts that define the architecture. Fo
 
 ```python
 import torch
-from model import MattingRefine
+from BackgroundMattingV2.model import MattingRefine
 
 device = torch.device('cuda')
 precision = torch.float32
