@@ -1,12 +1,11 @@
-import sys
-import setuptools
-
+from setuptools import setup, find_packages
 
 long_description = '''BackgroundMattingV2'''
 
-setuptools.setup(
+setup(
     name="BackgroundMattingV2",
     version="1.0",
-    packages=['BackgroundMattingV2'],
     platforms='any',
+    packages=find_packages(),
+    package_dir={"BackgroundMattingV2": "BackgroundMattingV2"},
 )
