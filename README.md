@@ -1,3 +1,59 @@
+### Installation
+
+```shell
+pip install BackgroundMattingV2@git+https://github.com/ShenhanQian/BackgroundMattingV2
+```
+
+### Use as a package
+### 
+```python
+from BackgroundMattingV2.model import MattingRefine
+from BackgroundMattingV2.asset import get_weights_path
+from typing import Literal
+from Pathlib import Path
+import torch
+from torch.utils.data import DataLoader
+
+
+def background_matting_v2(
+        image_dir: Path,
+        background_folder: Path=Path('../../BACKGROUND'),
+        model_backbone: Literal['resnet101', 'resnet50', 'mobilenetv2']='resnet101',
+        model_backbone_scale: float=0.25,
+        model_refine_mode: Literal['full', 'sampling', 'thresholding']='thresholding',
+        model_refine_sample_pixels: int=80_000,
+        model_refine_threshold: float=0.01,
+        model_refine_kernel_size: int=3,
+    ):
+    # auto matic checkpoint downloading based on the chosen backbone
+    weights_path = get_weights_path(model_backbone)
+
+    model = MattingRefine(
+        model_backbone,
+        model_backbone_scale,
+        model_refine_mode,
+        model_refine_sample_pixels,
+        model_refine_threshold,
+        model_refine_kernel_size
+    ).cuda().eval()
+    model.load_state_dict(torch.load(weights_path, map_location='cuda'), strict=False)
+
+    dataset = ImageFolderDataset(image_folder=image_dir, background_folder=background_folder)
+    dataloader = DataLoader(dataset, batch_size=1, shuffle=False, num_workers=0)
+
+    for item in dataloader:
+        src = item['rgb']
+        bgr = item['background']
+        src = src.permute(0, 3, 1, 2).float().cuda() / 255
+        bgr = bgr.permute(0, 3, 1, 2).float().cuda() / 255
+
+        with torch.no_grad():
+            pha, fgr, _, _, err, ref = model(src, bgr)
+
+        alpha_map = (pha[0, 0] * 255).cpu().numpy()
+    return alpha_map
+```
+
 # Real-Time High-Resolution Background Matting
 
 ![Teaser](https://github.com/PeterL1n/Matting-PyTorch/blob/master/images/teaser.gif?raw=true)
